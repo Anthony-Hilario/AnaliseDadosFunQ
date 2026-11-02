@@ -20,15 +20,15 @@ Os registros foram simulados originalmente como se pertencessem a duas turmas. C
 | Arquivo | Descrição |
 |---|---|
 | `analise-respostas-funq.ipynb` | Notebook Jupyter com toda a análise e os gráficos |
-| `respostas_formulario.csv` | Respostas simuladas do FunQ (uma linha por aluno), identificadas por `id_aluno` |
+| `respostas_formulario.csv` | Respostas simuladas do FunQ (uma linha por aluno), identificadas por `aluno_id` |
 | `alunos.csv` | Cadastro simulado dos 40 alunos, com apenas as colunas `id` e `idade` |
 | `README.md` | Este arquivo |
 
 ### Sobre os CSVs
 
 - **`alunos.csv`**: 40 registros com `id` e `idade`. Não há nomes nem qualquer outro dado pessoal.
-- **`respostas_formulario.csv`**: contém `id_aluno` e as respostas às 18 questões da escala FunQ e as respostas abertas (`q1` a `q18`, notas de 1 a 5; `q19` a `q24`, discursivas).
-- A ligação entre as duas tabelas é feita por `respostas_formulario.csv → id_aluno` ↔ `alunos.csv → id`. No notebook, as tabelas são mantidas em variáveis separadas (`df` e `df_alunos`), e a idade é trazida para uma tabela temporária (`df_idade`) apenas nas análises que dependem dela.
+- **`respostas_formulario.csv`**: contém `aluno_id` e as respostas às 18 questões da escala FunQ e as respostas abertas (`q1` a `q18`, notas de 1 a 5; `q19` a `q24`, discursivas).
+- A ligação entre as duas tabelas é feita por `respostas_formulario.csv → aluno_id` ↔ `alunos.csv → id`. No notebook, as tabelas são mantidas em variáveis separadas (`df` e `df_alunos`), e a idade é trazida para uma tabela temporária (`df_idade`) apenas nas análises que dependem dela.
 
 ---
 
@@ -130,7 +130,7 @@ Observações:
 
 ### Usar com dados reais
 
-Para analisar uma turma real, substitua o conteúdo dos dois CSVs mantendo **os mesmos nomes de arquivo e as mesmas colunas** (`id`, `idade` em `alunos.csv`; `id_aluno`, `q1` a `q18` em `respostas_formulario.csv`) e execute o notebook novamente. Antes de divulgar qualquer resultado, confirme a autorização dos responsáveis e a anonimização dos dados (use apenas identificadores numéricos, sem nomes).
+Para analisar uma turma real, substitua o conteúdo dos dois CSVs mantendo **os mesmos nomes de arquivo e as mesmas colunas** e execute o notebook novamente. Antes de divulgar qualquer resultado, confirme a autorização dos responsáveis e a anonimização dos dados (use apenas identificadores numéricos, sem nomes).
 
 ---
 
