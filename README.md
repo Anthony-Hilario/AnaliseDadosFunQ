@@ -1,7 +1,6 @@
 # Análise de Dados do FunQ: Jogo Educacional sobre Pensamento Computacional
 
-Repositório com os dados e o notebook de análise utilizados no Trabalho de Conclusão de Curso **"AVALIAFUNQ: PLATAFORMA WEB PARA MENSURAÇÃO QUALIQUANTITATIVA DA EXPERIÊNCIA LÚDICA DE ESTUDANTES COM SERIOUS GAMES
-"**, do curso de Tecnologia em Sistemas para Internet do IFRN (Campus Currais Novos).
+Repositório com os dados e o notebook de análise utilizados no Trabalho de Conclusão de Curso **"AVALIAFUNQ: PLATAFORMA WEB PARA MENSURAÇÃO QUALIQUANTITATIVA DA EXPERIÊNCIA LÚDICA DE ESTUDANTES COM SERIOUS GAMES"**, do curso de Tecnologia em Sistemas para Internet do IFRN (Campus Currais Novos).
 
 A plataforma web aplica o *Fun Questionnaire* (FunQ) com mais algumas questões abertas aos estudantes após a atividade com o jogo de tabuleiro desplugado. Este repositório reúne a análise descritiva das respostas coletadas.
 
@@ -20,15 +19,14 @@ Os registros foram simulados originalmente como se pertencessem a duas turmas. C
 | Arquivo | Descrição |
 |---|---|
 | `analise-respostas-funq.ipynb` | Notebook Jupyter com toda a análise e os gráficos |
-| `respostas_formulario.csv` | Respostas simuladas do FunQ (uma linha por aluno), identificadas por `aluno_id` |
-| `alunos.csv` | Cadastro simulado dos 40 alunos, com apenas as colunas `id` e `idade` |
+| `Respostas_FunQ_Alunos.csv` | Respostas simuladas do FunQ (uma linha por aluno), no mesmo formato do arquivo exportado pela plataforma |
 | `README.md` | Este arquivo |
 
-### Sobre os CSVs
+### Sobre o CSV
 
-- **`alunos.csv`**: 40 registros com `id` e `idade`. Não há nomes nem qualquer outro dado pessoal.
-- **`respostas_formulario.csv`**: contém `aluno_id` e as respostas às 18 questões da escala FunQ e as respostas abertas (`q1` a `q18`, notas de 1 a 5; `q19` a `q24`, discursivas).
-- A ligação entre as duas tabelas é feita por `respostas_formulario.csv → aluno_id` ↔ `alunos.csv → id`. No notebook, as tabelas são mantidas em variáveis separadas (`df` e `df_alunos`), e a idade é trazida para uma tabela temporária (`df_idade`) apenas nas análises que dependem dela.
+- **`Respostas_FunQ_Alunos.csv`**: tem o mesmo formato do arquivo exportado pela plataforma (botão de exportação da área administrativa): campos separados por **ponto e vírgula** (`;`) e codificação UTF-8 com BOM.
+- Colunas: `ID`, `Idade`, `Grupo de Teste`, `Pesquisador`, `q1` a `q18` (notas de 1 a 5) e `q19_opiniao_atividade` a `q24_sugestoes_mudanca` (respostas abertas, opcionais, que podem estar em branco).
+- A idade fica na mesma tabela das respostas. Não há nomes nem qualquer outro dado pessoal. Se a idade estiver ausente no sistema, a plataforma exporta `N/A`, e o notebook trata esse valor como ausente.
 
 ---
 
@@ -42,12 +40,12 @@ O FunQ possui 18 itens, respondidos em uma **escala de frequência de 1 a 5** (1
 | Desafio (C) | q4, q5, q6 |
 | Prazer (D) | q7, q8, q9 |
 | Imersão (I) | q10, q11, q12 |
-| Perda de Barreiras Sociais (SB) | q13, q14, q15 |
+| Redução de Barreiras Sociais (SB) | q13, q14, q15 |
 | Estresse (S) | q16, q17, q18 |
 
-**Itens invertidos [R]:** alguns itens têm pontuação inversa e são recodificados antes do cálculo, pela fórmula `nota_invertida = 6 - nota` (1 vira 5, 2 vira 4, 3 permanece 3, 4 vira 2 e 5 vira 1). Os itens invertidos são q2, q16, q17 e q18.
+**Itens invertidos [R]:** alguns itens têm pontuação inversa e são recodificados pelo sistema antes de serem gravados, pela fórmula `nota_invertida = 6 - nota` (1 vira 5, 2 vira 4, 3 permanece 3, 4 vira 2 e 5 vira 1). Os itens invertidos são **q2** (Autonomia) e **q16, q17 e q18** (Estresse). **A plataforma já grava esses valores invertidos**, por isso o CSV exportado já os traz recodificados e o notebook **não inverte novamente**.
 
-**Pontuação de cada dimensão:** média simples dos três itens (já com a inversão aplicada), por aluno. Exemplo: `Desafio = (q4 + q5 + q6) / 3`.
+**Pontuação de cada dimensão:** média simples dos três itens (já com a inversão aplicada), por aluno. Exemplo: `Desafio = (q4 + q5 + q6) / 3`. Como Estresse é composta apenas por itens invertidos, nela uma média **menor** indica **mais** estresse.
 
 Instrumento original: TISZA, Gabriella; MARKOPOULOS, Panos. The Fun Questionnaire (FunQ): Measuring fun in learning with adolescents. *Computers & Education*, v. 195, p. 104712, 2023.
 
@@ -57,11 +55,11 @@ Instrumento original: TISZA, Gabriella; MARKOPOULOS, Panos. The Fun Questionnair
 
 O notebook `analise-respostas-funq.ipynb` deve ser executado **na ordem das células**, pois as etapas posteriores dependem das variáveis criadas nas anteriores:
 
-1. **Carregamento dos dados:** leitura de `respostas_formulario.csv` e `alunos.csv`.
-2. **Cálculo das dimensões:** inversão dos itens [R] e média por dimensão.
+1. **Carregamento dos dados:** leitura de `Respostas_FunQ_Alunos.csv` (separador `;`).
+2. **Cálculo das dimensões:** média dos três itens de cada dimensão, a partir dos valores já invertidos pelo sistema.
 3. **Médias por dimensão:** gráfico de barras com o escore médio da turma.
 4. **Estatística descritiva:** mediana e IQR, desvio padrão, mínimo, máximo e amplitude de cada dimensão.
-5. **Correlação entre dimensões:** matriz de correlação (heatmap), incluindo relações como Desafio × Imersão e Estresse × Prazer.
+5. **Correlação entre dimensões:** matriz de correlação (heatmap), incluindo relações como Desafio × Imersão e Autonomia × Prazer.
 6. **Idade como variável exploratória:** dispersão de cada dimensão por idade e comparação entre faixas etárias (14-15 e 16-17 anos).
 
 ---
@@ -82,7 +80,7 @@ cd <pasta-do-repositorio>
 jupyter notebook analise-respostas-funq.ipynb
 ```
 
-Mantenha os dois arquivos CSV na **mesma pasta** do notebook, pois ele os lê pelo nome (`pd.read_csv('alunos.csv')` e `pd.read_csv('respostas_formulario.csv')`).
+Mantenha o arquivo CSV na **mesma pasta** do notebook, pois ele o lê pelo nome (`Respostas_FunQ_Alunos.csv`).
 
 ---
 
@@ -94,8 +92,7 @@ Esta seção é para professores e demais interessados que querem usar os arquiv
 
 Os arquivos `.csv` são tabelas simples e podem ser abertos no **Excel**, no **LibreOffice Calc** ou no **Google Planilhas** (Arquivo → Importar → Upload).
 
-- `alunos.csv`: lista de alunos com `id` e `idade`.
-- `respostas_formulario.csv`: cada linha é um aluno e cada coluna `q1` a `q18` é uma pergunta do questionário (notas de 1 a 5).
+- `Respostas_FunQ_Alunos.csv`: cada linha é um aluno e cada coluna `q1` a `q18` é uma pergunta do questionário (notas de 1 a 5). Ao importar, escolha **ponto e vírgula** como separador.
 
 Se quiser apenas conferir as médias por dimensão de cada aluno, a tela de administração da plataforma já mostra essa tabela pronta.
 
@@ -105,12 +102,12 @@ Usa o **Google Colab**, que roda o notebook online, sem instalar nada. É necess
 
 1. Acesse [colab.research.google.com](https://colab.research.google.com) e entre com sua conta Google.
 2. Clique em **Arquivo → Fazer upload de notebook** e selecione `analise-respostas-funq.ipynb`.
-3. No menu lateral esquerdo, clique no **ícone de pasta** e depois no ícone de **upload**. Envie os dois arquivos `alunos.csv` e `respostas_formulario.csv`.
+3. No menu lateral esquerdo, clique no **ícone de pasta** e depois no ícone de **upload**. Envie o arquivo `Respostas_FunQ_Alunos.csv`.
 4. Clique em **Ambiente de execução → Executar tudo**.
 5. Role a página: os gráficos e tabelas aparecem abaixo de cada célula.
 
 Observações:
-- Os dois CSVs precisam ser enviados ao Colab **antes** de executar, porque o notebook os procura pelo nome.
+- O CSV precisa ser enviado ao Colab **antes** de executar, porque o notebook os procura pelo nome.
 - O Colab já traz `pandas`, `matplotlib` e `seaborn` instalados.
 - Os arquivos enviados ao Colab somem quando a sessão termina. Basta repetir o passo 3 na próxima vez.
 
@@ -124,13 +121,13 @@ Observações:
 ### Como ler os resultados
 
 - Todas as notas vão de **1 a 5**.
-- Depois da inversão dos itens [R], **valores mais altos indicam uma experiência mais favorável em todas as dimensões**, inclusive em Estresse (nota alta = menos estresse) e em Desafio (nota alta = desafio adequado, nem fácil nem difícil demais).
+- Depois da inversão dos itens [R], **valores mais altos indicam uma experiência mais favorável em todas as dimensões**, inclusive em Estresse, em que nota alta significa **menos** estresse.
 - **Média e mediana** mostram o resultado típico da turma. **Desvio padrão, IQR e amplitude** mostram o quanto as respostas variam entre os alunos.
 - Lembre-se: os dados são simulados e servem apenas para demonstração.
 
 ### Usar com dados reais
 
-Para analisar uma turma real, substitua o conteúdo dos dois CSVs mantendo **os mesmos nomes de arquivo e as mesmas colunas** e execute o notebook novamente. Antes de divulgar qualquer resultado, confirme a autorização dos responsáveis e a anonimização dos dados (use apenas identificadores numéricos, sem nomes).
+Para analisar uma turma real, substitua o arquivo pelo CSV exportado da plataforma, mantendo o **nome** `Respostas_FunQ_Alunos.csv` (é o nome que a plataforma já gera), e execute o notebook novamente. Antes de divulgar qualquer resultado, confirme a autorização dos responsáveis e a anonimização dos dados (use apenas identificadores numéricos, sem nomes).
 
 ---
 
@@ -139,7 +136,7 @@ Para analisar uma turma real, substitua o conteúdo dos dois CSVs mantendo **os 
 - **Dados simulados:** os resultados têm caráter ilustrativo e servem para validar a ferramenta, não para tirar conclusões sobre estudantes reais.
 - **Amostra pequena (n = 40):** as análises são descritivas e exploratórias. Não são realizados testes de significância estatística.
 - **Pouca variação de idade:** a amostra se concentra em 15 e 16 anos (34 dos 40 alunos), com apenas 3 alunos de 14 anos e 3 de 17 anos. A comparação por faixa etária deve ser lida com cautela.
-- **Grupo único:** a distinção entre as duas turmas simuladas não é considerada.
+- **Grupo único:** a coluna `Grupo de Teste` (Grupo A e Grupo B) não é usada na análise, que considera os 40 alunos como uma única turma.
 - **Escala Likert:** por serem dados ordinais, a mediana e o IQR são complementares à média e ao desvio padrão na interpretação.
 
 ---
