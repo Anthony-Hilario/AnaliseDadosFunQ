@@ -1,6 +1,6 @@
 # Análise de Dados do FunQ: Jogo Educacional sobre Pensamento Computacional
 
-Repositório com os dados e o notebook de análise utilizados no Trabalho de Conclusão de Curso **"AVALIAFUNQ: PLATAFORMA WEB PARA MENSURAÇÃO QUALIQUANTITATIVA DA EXPERIÊNCIA LÚDICA DE ESTUDANTES COM SERIOUS GAMES"**, do curso de Tecnologia em Sistemas para Internet do IFRN (Campus Currais Novos).
+Repositório com os dados e o notebook de análise utilizados no Trabalho de Conclusão de Curso **"AVALIAFUNQ: PLATAFORMA WEB PARA MENSURAÇÃO DA EXPERIÊNCIA LÚDICA DE ESTUDANTES COM SERIOUS GAMES"**, do curso de Tecnologia em Sistemas para Internet do IFRN (Campus Currais Novos).
 
 A plataforma web aplica o *Fun Questionnaire* (FunQ) com mais algumas questões abertas aos estudantes após a atividade com o jogo de tabuleiro desplugado. Este repositório reúne a análise descritiva das respostas coletadas.
 
